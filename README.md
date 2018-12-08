@@ -20,3 +20,6 @@
 ## Credits to:
 - [Y-Key](https://www.youtube.com/channel/UCzjuyVibw-6HHK4K3AgXo7A)
 - [Flat Icon](https://www.flaticon.com)
+
+## License
+- This project is licensed under MIT License,  - see the [LICENSE](https://github.com/la-colinares/MazeGame/blob/master/LICENSE) for file details.
