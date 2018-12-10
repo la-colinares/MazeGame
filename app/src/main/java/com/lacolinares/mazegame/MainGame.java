@@ -1,9 +1,9 @@
 package com.lacolinares.mazegame;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -16,10 +16,17 @@ public class MainGame extends AppCompatActivity {
     private TextView txtScore;
     private TextView txtTimer;
 
+    private Context mContext;
+
+    public MainGame() {
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_game);
+
+        mContext = MainGame.this;
 
         //initialize the views
         main_container = findViewById(R.id.main_container);
@@ -27,7 +34,7 @@ public class MainGame extends AppCompatActivity {
         txtTimer = findViewById(R.id.txt_timer);
 
         //initialize the game
-        mazeView = new MazeView(this, null, txtScore, txtTimer);
+        mazeView = new MazeView(mContext, null, txtScore, txtTimer, MainGame.this);
         main_container.addView(mazeView);
     }
 
@@ -37,7 +44,7 @@ public class MainGame extends AppCompatActivity {
         mazeView.pauseTimer();
 
         //show warning message
-        final SweetAlertDialog sDialog = new SweetAlertDialog(MainGame.this, SweetAlertDialog.WARNING_TYPE);
+        final SweetAlertDialog sDialog = new SweetAlertDialog(mContext, SweetAlertDialog.WARNING_TYPE);
         sDialog.setTitleText(getResources().getString(R.string.app_name));
         sDialog.setContentText("Are you sure you want to exit the game?");
         sDialog.setConfirmText("Yes");
@@ -48,12 +55,11 @@ public class MainGame extends AppCompatActivity {
                 //go back to main menu
                 int score = mazeView.getCurrentScore();
 
-                int highScore = ScoreUtil.getHishScore(MainGame.this);
+                int highScore = ScoreUtil.getHighScore(mContext);
 
-                if (score > highScore){
-                    ScoreUtil.setScore(MainGame.this, score);
+                if (score > highScore) {
+                    ScoreUtil.setScore(mContext, score);
                 }
-
                 exit();
             }
         });
@@ -63,14 +69,13 @@ public class MainGame extends AppCompatActivity {
                 //just close the message and resume the timer
                 sDialog.dismissWithAnimation();
                 mazeView.resumeTimer();
-
             }
         });
         sDialog.show();
     }
 
-    public void exit(){
-        startActivity(new Intent(MainGame.this, MainMenu.class));
+    public void exit() {
+        startActivity(new Intent(mContext, MainMenu.class));
         finish();
     }
 

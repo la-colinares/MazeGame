@@ -16,7 +16,7 @@ public class ScoreUtil {
         editor.commit();
     }
 
-    public static int getHishScore(Context context) {
+    public static int getHighScore(Context context) {
         SharedPreferences sharedPref = context.getSharedPreferences("Score", Context.MODE_PRIVATE);
         int score = sharedPref.getInt("score", 0);
         return score;

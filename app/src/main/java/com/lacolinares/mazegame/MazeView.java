@@ -1,7 +1,6 @@
 package com.lacolinares.mazegame;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.support.annotation.Nullable;
@@ -46,12 +45,15 @@ public class MazeView extends View {
 
     private DynaTime dynaTime = null;
 
-    public MazeView(Context context, @Nullable AttributeSet attrs, TextView txtScore, TextView txtTimer) {
+    private MainGame mainGame;
+
+    public MazeView(Context context, @Nullable AttributeSet attrs, TextView txtScore, TextView txtTimer, MainGame mainGame) {
         super(context, attrs);
 
         this.context = context;
         this.txtScore = txtScore;
         this.txtTimer = txtTimer;
+        this.mainGame = mainGame;
 
         wallPaint = new Paint();
         wallPaint.setColor(getResources().getColor(R.color.colorWhite));
@@ -108,10 +110,18 @@ public class MazeView extends View {
         sDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
             @Override
             public void onClick(SweetAlertDialog sweetAlertDialog) {
-                MainGame mainGame = new MainGame();
+
+                int highScore = ScoreUtil.getHighScore(context);
+                int score = getCurrentScore();
+
+                if (score > highScore) {
+                    ScoreUtil.setScore(context, score);
+                }
+
                 mainGame.exit();
             }
         });
+        sDialog.show();
     }
 
     private void setTimer() {
