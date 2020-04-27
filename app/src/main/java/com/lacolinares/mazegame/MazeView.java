@@ -3,7 +3,7 @@ package com.lacolinares.mazegame;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -46,6 +46,13 @@ public class MazeView extends View {
     private DynaTime dynaTime = null;
 
     private MainGame mainGame;
+
+    public MazeView(Context context){
+        super(context);
+    }
+    public MazeView(Context context, @Nullable AttributeSet attrs){
+        super(context, attrs);
+    }
 
     public MazeView(Context context, @Nullable AttributeSet attrs, TextView txtScore, TextView txtTimer, MainGame mainGame) {
         super(context, attrs);
@@ -92,9 +99,6 @@ public class MazeView extends View {
                 } else {
                     txtScore.setText("Score: " + SCORE);
                     cancelTimer();
-                    /*createMaze();
-                    initTimer();
-                    setTimer();*/
                     showMessage();
                 }
                 invalidate();
